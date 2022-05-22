@@ -3,9 +3,9 @@ from flask import Flask, render_template, redirect, url_for
 # use PyMongo to interact with Mongo database
 from flask_pymongo import PyMongo
 # use scraping code to convert Jupyter notebook to Python
-#import scraping
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
+import scraping
+#from urllib.request import urlopen
+#from bs4 import BeautifulSoup
 
 # Set up Flask
 app = Flask(__name__)
