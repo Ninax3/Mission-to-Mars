@@ -10,9 +10,11 @@ def scrape_all():
     # Initiate headless driver for deployment; true, scripting not needed to be observed
     # set up Splinter
     executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=True)
+    browser = Browser('chrome', **executable_path, headless=False)
     #set title and p variable per function below
     news_title, news_paragraph = mars_news(browser)
+    #img_url, title = mars_hemispheres(browser)
+    hemisphere_image_urls = mars_hemispheres(browser)
 
     #create data dictionary
     # Run all scraping functions and store results in dictionary
@@ -21,8 +23,9 @@ def scrape_all():
           "news_paragraph": news_paragraph,
           "featured_image": featured_image(browser),
           "facts": mars_facts(),
+          "hemispheres": hemisphere_image_urls,
           "last_modified": dt.datetime.now()
-    }
+     }
 
     # Stop webdriver and return data
     browser.quit()
@@ -56,7 +59,6 @@ def mars_news(browser):
     except AttributeError:
         return None, None
     
-
     return news_title, news_p
 
 # ### Featured Images from JetPropulsion Laboratories
@@ -105,6 +107,26 @@ def mars_facts():
 
     # Convert the df to html for the web app
     return df.to_html(classes="table table-striped")
+
+# ## Mars Hemispheres
+
+def mars_hemispheres(browser):
+    url = 'https://marshemispheres.com/'
+    browser.visit(url)
+
+    hemisphere_image_urls = []
+    for hemis in range(4):
+        browser.links.find_by_partial_text('Hemisphere')[hemis].click()
+        html = browser.html
+        hemi_soup = soup(html, 'html.parser')
+        title = hemi_soup.find('h2', class_='title').text
+        img_url = hemi_soup.find('li').a.get('href')
+        hemispheres = {}
+        hemispheres['img_url'] = f'https://marshemispheres.com/{img_url}'
+        hemispheres['title'] = title
+        hemisphere_image_urls.append(hemispheres)
+        browser.back()
+    return hemisphere_image_urls
 
 if __name__ == "__main__":
     # If running as script, print scraped data
