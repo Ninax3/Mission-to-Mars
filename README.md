@@ -7,4 +7,4 @@ Here is an example of the responsive web page created, https://github.com/Ninax3
 
 Here is an example of using a Bootstrap component to display the Mars hemisphere images as thumbnails, https://github.com/Ninax3/Mission-to-Mars/blob/main/Mars_Thumbnails.png
 
-Here is an example of using a Bootstrap component to display the mouse over scrape button with red text,
+Here is an example of using a Bootstrap component to display the mouse over scrape button with red text, https://github.com/Ninax3/Mission-to-Mars/blob/main/RedText_Scrape_Button.png
